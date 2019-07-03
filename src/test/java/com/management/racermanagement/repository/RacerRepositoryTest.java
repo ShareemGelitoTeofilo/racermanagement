@@ -5,10 +5,10 @@ import com.management.racermanagement.racer.Racer;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class RacerRepositoryTest extends RacermanagementApplicationTests {
 
@@ -41,13 +41,25 @@ public class RacerRepositoryTest extends RacermanagementApplicationTests {
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteByIdTest(){
         racerRepository.deleteById(3);
+    }
+
+    @Test
+    public void deleteTest(){
+        Racer racer = racerRepository.findById(1).get();
+        racerRepository.delete(racer);
     }
 
     @Test
     public void findByNameTest(){
         Racer racer = racerRepository.findFirstByName("Shareem");
         assertNotNull(racer);
+    }
+    
+    @Test
+    public void findAllTest(){
+        List<Racer> racers = racerRepository.findAll();
+        assertFalse(racers.isEmpty());
     }
 }

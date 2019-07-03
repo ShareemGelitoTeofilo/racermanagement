@@ -5,6 +5,7 @@ import com.management.racermanagement.racer.Racer;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
@@ -26,19 +27,9 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
         assertNotNull(racer);
     }
 
-    @Test
-    public void updateTest() throws Exception {
-        Racer racer = racerService.findById(2);
-        System.out.println("Updating name of: " + racer.getName());
-        racer.setName("Shareem Gelito Teofilo");
-        Racer updatedRacer = racerService.save(racer);
-        assertNotNull(updatedRacer);
-
-        System.out.println("New name: " + updatedRacer.getName());
-    }
 
     @Test
-    public void deleteTest() throws Exception {
+    public void deleteByIdTest() throws Exception {
         Racer racer = saveRacer();
         racerService.deleteById(racer.getId());
     }
@@ -47,6 +38,19 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
     public void findByNameTest(){
         Racer racer = racerService.findByName("Sharee1m");
         assertNotNull(racer);
+    }
+
+    @Test
+    public void findAllTest(){
+        List<Racer> racers = racerService.findAll();
+    }
+
+    @Test
+    public void updateTest() throws Exception {
+        Racer racer = racerService.findById(4);
+        racer.setName("Joker");
+        racer.setSpeed(200);
+        Racer updatedRacer = racerService.update(racer);
     }
 
     private Racer saveRacer() throws Exception {

@@ -5,6 +5,8 @@ import com.management.racermanagement.repository.RacerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 class RacerServiceImpl implements RacerService {
 
@@ -14,11 +16,9 @@ class RacerServiceImpl implements RacerService {
     @Override
     public Racer save(Racer racer) throws Exception {
         Racer existingRacer = findByName(racer.getName());
-
         if(existingRacer != null){
             throw new Exception("Racer already exist");
         }
-
         return racerRepository.save(racer);
     }
 
@@ -29,11 +29,30 @@ class RacerServiceImpl implements RacerService {
 
     @Override
     public void deleteById(int id) {
-        racerRepository.deleteById(id);
+        Racer racer = racerRepository.findById(id).get();
+        racerRepository.deleteById(racer.getId());
     }
 
     @Override
     public Racer findByName(String name) {
         return racerRepository.findFirstByName(name);
     }
+
+    @Override
+    public List<Racer> findAll() {
+        return racerRepository.findAll();
+    }
+
+    @Override
+    public Racer update(Racer racer) throws Exception {
+
+        Racer racerWithSameName = findByName(racer.getName());
+
+        if(racerWithSameName != null && racer.getId() != racerWithSameName.getId()) {
+            throw new Exception("Name is already used.");
+        }
+
+        return racerRepository.save(racer);
+    }
+
 }
