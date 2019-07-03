@@ -36,7 +36,7 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
 
     @Test
     public void findByNameTest(){
-        Racer racer = racerService.findByName("Sharee1m");
+        Racer racer = racerService.findByName("Shareem");
         assertNotNull(racer);
     }
 
