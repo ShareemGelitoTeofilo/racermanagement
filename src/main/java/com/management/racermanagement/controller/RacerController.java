@@ -39,7 +39,6 @@ public class RacerController {
         return racerService.findByName(name);
     }
 
-    // TODO
     @PostMapping("/update")
     public Racer updateRacer(@RequestBody Racer racer) throws Exception {
         return racerService.update(racer);

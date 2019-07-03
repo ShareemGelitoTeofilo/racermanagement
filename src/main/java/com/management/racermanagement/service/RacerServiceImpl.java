@@ -22,14 +22,18 @@ class RacerServiceImpl implements RacerService {
     }
 
     @Override
-    public Racer findById(int id) throws Exception {
-        return racerRepository.findById(id).orElseThrow(() -> new Exception("Racer with ID " + id + " not found."));
+    public List<Racer> saveAll(List<Racer> racers) throws Exception {
+        for(Racer racer: racers){
+            if(racerRepository.findByName(racer.getName()) != null){
+                throw new Exception("One or more racers already exists.");
+            }
+        }
+        return racerRepository.saveAll(racers);
     }
 
     @Override
-    public void deleteById(int id) throws Exception {
-        Racer racer = findById(id);
-        racerRepository.deleteById(racer.getId());
+    public Racer findById(int id) throws Exception {
+        return racerRepository.findById(id).orElseThrow(() -> new Exception("Racer with ID " + id + " not found."));
     }
 
     @Override
@@ -65,20 +69,14 @@ class RacerServiceImpl implements RacerService {
     }
 
     @Override
-    public void deleteAll() {
-        racerRepository.deleteAll();
+    public void deleteById(int id) throws Exception {
+        Racer racer = findById(id);
+        racerRepository.deleteById(racer.getId());
     }
 
     @Override
-    public List<Racer> saveAll(List<Racer> racers) throws Exception {
-
-        for(Racer racer: racers){
-            if(racerRepository.findByName(racer.getName()) != null){
-                throw new Exception("One or more racers already exists.");
-            }
-        }
-
-        return racerRepository.saveAll(racers);
+    public void deleteAll() {
+        racerRepository.deleteAll();
     }
 
 }
