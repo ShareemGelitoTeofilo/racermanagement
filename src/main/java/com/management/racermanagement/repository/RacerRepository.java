@@ -4,5 +4,5 @@ import com.management.racermanagement.racer.Racer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RacerRepository extends JpaRepository<Racer, Integer> {
-    Racer findFirstByName(String name);
+    Racer findByName(String name);
 }

@@ -15,27 +15,31 @@ class RacerServiceImpl implements RacerService {
 
     @Override
     public Racer save(Racer racer) throws Exception {
-        Racer existingRacer = findByName(racer.getName());
+        Racer existingRacer = racerRepository.findByName(racer.getName());
         if(existingRacer != null){
-            throw new Exception("Racer already exist");
+            throw new Exception("Racer with a name \"" + racer.getName() + "\" already exist.");
         }
         return racerRepository.save(racer);
     }
 
     @Override
     public Racer findById(int id) throws Exception {
-        return racerRepository.findById(id).orElseThrow(() -> new Exception("Racer not found."));
+        return racerRepository.findById(id).orElseThrow(() -> new Exception("Racer with ID " + id + " not found."));
     }
 
     @Override
-    public void deleteById(int id) {
-        Racer racer = racerRepository.findById(id).get();
+    public void deleteById(int id) throws Exception {
+        Racer racer = findById(id);
         racerRepository.deleteById(racer.getId());
     }
 
     @Override
-    public Racer findByName(String name) {
-        return racerRepository.findFirstByName(name);
+    public Racer findByName(String name) throws Exception {
+        Racer racer = racerRepository.findByName(name);
+        if(racer == null){
+            throw new Exception("Racer not found");
+        }
+        return racer;
     }
 
     @Override
@@ -45,14 +49,16 @@ class RacerServiceImpl implements RacerService {
 
     @Override
     public Racer update(Racer racer) throws Exception {
+        Racer existingRacer = findById(racer.getId());
 
-        Racer racerWithSameName = findByName(racer.getName());
-
-        if(racerWithSameName != null && racer.getId() != racerWithSameName.getId()) {
+        Racer racerWithSameName = racerRepository.findByName(racer.getName());
+        if (racerWithSameName != null && existingRacer.getId() != racerWithSameName.getId()) {
             throw new Exception("Name is already used.");
+        } else {
+            existingRacer.setName(racer.getName());
+            existingRacer.setSpeed(racer.getSpeed());
         }
-
-        return racerRepository.save(racer);
+        return racerRepository.save(existingRacer);
     }
 
 }

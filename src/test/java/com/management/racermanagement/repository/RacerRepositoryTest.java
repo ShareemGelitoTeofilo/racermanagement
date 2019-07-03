@@ -53,7 +53,7 @@ public class RacerRepositoryTest extends RacermanagementApplicationTests {
 
     @Test
     public void findByNameTest(){
-        Racer racer = racerRepository.findFirstByName("Shareem");
+        Racer racer = racerRepository.findByName("Shareem");
         assertNotNull(racer);
     }
     

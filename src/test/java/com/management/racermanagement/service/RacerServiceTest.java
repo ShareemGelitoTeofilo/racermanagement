@@ -35,8 +35,8 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
     }
 
     @Test
-    public void findByNameTest(){
-        Racer racer = racerService.findByName("Shareem");
+    public void findByNameTest() throws Exception {
+        Racer racer = racerService.findByName("Joker");
         assertNotNull(racer);
     }
 
@@ -47,9 +47,10 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
 
     @Test
     public void updateTest() throws Exception {
-        Racer racer = racerService.findById(4);
-        racer.setName("Joker");
-        racer.setSpeed(200);
+        Racer racer = new Racer();
+        racer.setId(100);
+        racer.setName("Superman");
+        racer.setSpeed(400);
         Racer updatedRacer = racerService.update(racer);
     }
 
