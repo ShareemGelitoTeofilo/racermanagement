@@ -5,6 +5,7 @@ import com.management.racermanagement.racer.Racer;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,24 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
     }
 
     @Test
+    public void saveAllTest() throws Exception {
+        List<Racer> racers = new ArrayList<>();
+
+        Racer racer1 = new Racer();
+        racer1.setName("Batman");
+        racer1.setSpeed(100);
+
+        Racer racer2 = new Racer();
+        racer2.setName("Hulk");
+        racer2.setSpeed(200);
+
+        racers.add(racer1);
+        racers.add(racer2);
+
+        List<Racer> savedRacers = racerService.saveAll(racers);
+    }
+
+    @Test
     public void findByIdTest() throws Exception {
         Racer racer = racerService.findById(1);
         assertNotNull(racer);
@@ -35,14 +54,20 @@ public class RacerServiceTest extends RacermanagementApplicationTests {
     }
 
     @Test
+    public void deleteAll(){
+        racerService.deleteAll();
+    }
+
+    @Test
     public void findByNameTest() throws Exception {
         Racer racer = racerService.findByName("Joker");
         assertNotNull(racer);
     }
 
     @Test
-    public void findAllTest(){
+    public void findAllTest() throws Exception {
         List<Racer> racers = racerService.findAll();
+        assertNotNull(racers);
     }
 
     @Test

@@ -15,8 +15,7 @@ class RacerServiceImpl implements RacerService {
 
     @Override
     public Racer save(Racer racer) throws Exception {
-        Racer existingRacer = racerRepository.findByName(racer.getName());
-        if(existingRacer != null){
+        if(racerRepository.findByName(racer.getName()) != null){
             throw new Exception("Racer with a name \"" + racer.getName() + "\" already exist.");
         }
         return racerRepository.save(racer);
@@ -43,8 +42,12 @@ class RacerServiceImpl implements RacerService {
     }
 
     @Override
-    public List<Racer> findAll() {
-        return racerRepository.findAll();
+    public List<Racer> findAll() throws Exception {
+        List<Racer> racers = racerRepository.findAll();
+        if(racers.isEmpty()){
+            throw new Exception("No records found.");
+        }
+        return racers;
     }
 
     @Override
@@ -59,6 +62,23 @@ class RacerServiceImpl implements RacerService {
             existingRacer.setSpeed(racer.getSpeed());
         }
         return racerRepository.save(existingRacer);
+    }
+
+    @Override
+    public void deleteAll() {
+        racerRepository.deleteAll();
+    }
+
+    @Override
+    public List<Racer> saveAll(List<Racer> racers) throws Exception {
+
+        for(Racer racer: racers){
+            if(racerRepository.findByName(racer.getName()) != null){
+                throw new Exception("One or more racers already exists.");
+            }
+        }
+
+        return racerRepository.saveAll(racers);
     }
 
 }

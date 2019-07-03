@@ -14,13 +14,18 @@ public class RacerController {
     @Autowired
     RacerService racerService;
 
-    @PostMapping("/create")
-    public Racer createRacer(@RequestBody Racer racer) throws Exception {
+    @PostMapping("/save")
+    public Racer saveRacer(@RequestBody Racer racer) throws Exception {
         return racerService.save(racer);
     }
 
+    @PostMapping("/saveAll")
+    public List<Racer> saveAllRacers(@RequestBody List<Racer> racers) throws Exception {
+        return racerService.saveAll(racers);
+    }
+
     @GetMapping("/findAll")
-    public List<Racer> getAllRacers(){
+    public List<Racer> getAllRacers() throws Exception {
         return racerService.findAll();
     }
 
@@ -43,6 +48,11 @@ public class RacerController {
     @DeleteMapping("/delete/{id}")
     public void deleteRacerById(@PathVariable(value = "id") int racerId) throws Exception {
         racerService.deleteById(racerId);
+    }
+
+    @DeleteMapping("/deleteAll")
+    public void deleteAll(){
+        racerService.deleteAll();
     }
 
 }
